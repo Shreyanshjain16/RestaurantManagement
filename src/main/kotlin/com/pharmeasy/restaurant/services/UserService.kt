@@ -9,11 +9,28 @@ class UserService(private val userRepository: UserRepository){
 
 
 
-    public fun getUsers() : List<User>{
+    fun getUsers() : List<User>{
      return userRepository.findAll()
     }
 
     fun addUser(user: User) : User{
         return userRepository.save(user)
     }
+
+    fun getUser(userId :Long ) : User{
+
+        return userRepository.getById(userId)
+    }
+
+    fun updateUser(userId: Long, user: User): User {
+        user.userId=userId
+        return userRepository.save(user)
+    }
+
+    fun deleteUser(userId:Long){
+        return userRepository.deleteById(userId)
+    }
+
+
+
 }

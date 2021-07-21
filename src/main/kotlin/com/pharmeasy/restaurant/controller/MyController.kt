@@ -1,11 +1,9 @@
 package com.pharmeasy.restaurant.controller
 
+import com.pharmeasy.restaurant.model.Item
 import com.pharmeasy.restaurant.model.User
 import com.pharmeasy.restaurant.services.UserService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class MyController(private val userService:UserService) {
@@ -21,13 +19,35 @@ class MyController(private val userService:UserService) {
     @GetMapping("/users")
     public fun getUsers() : List<User> {
         return userService.getUsers()
-
-
-
     }
 
+    //add user
     @PostMapping("/users")
-    public fun addUser(@RequestBody user: User):User{
+     fun addUser(@RequestBody user: User):User{
         return userService.addUser(user)
     }
+
+    //Get User by id
+    @GetMapping("/users/{userId}")
+    public fun getUser(@PathVariable userId : Long):User{
+        return userService.getUser(userId)
+    }
+
+    //update user
+    @PutMapping("/users/{userId}")
+    fun updateUser(@PathVariable userId:Long,@RequestBody user: User):User{
+        return userService.updateUser(userId,user)
+    }
+
+//    @DeleteMapping("users/{userId}")
+//    fun deleteUser(@PathVariable userId: Long){
+//        userService.deleteUser(userId)
+//    }
+
+
+//    @GetMapping("/items")
+//    fun getItems() : List<Item>{
+//        return ItemService.getItems()
+//    }
+
 }
