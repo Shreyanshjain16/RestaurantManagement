@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Item(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var itemid: Long?,
+    var itemId: Long?,
     var itemname: String,
     var itemquantity:Long
 )

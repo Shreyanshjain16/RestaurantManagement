@@ -7,7 +7,10 @@ import javax.persistence.*
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
+
     var userId:Long?,
     var usertype:Long,
     var username:String
+    
+
 )
