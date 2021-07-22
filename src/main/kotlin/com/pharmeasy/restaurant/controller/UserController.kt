@@ -7,14 +7,10 @@ import com.pharmeasy.restaurant.services.UserService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class MyController(private val userService:UserService, private val itemService: ItemService) {
+class UserController(private val userService:UserService) {
 
 
 
-    @GetMapping("/")
-    public fun home(): String{
-        return "Welcome to Restaurant"
-    }
 
     //get the Users
     @GetMapping("/users")
@@ -44,29 +40,6 @@ class MyController(private val userService:UserService, private val itemService:
 //    fun deleteUser(@PathVariable userId: Long){
 //        userService.deleteUser(userId)
 //    }
-
-
-    @GetMapping("/items")
-    fun getItems() : List<Item>{
-        return itemService.getItems()
-    }
-
-    @PostMapping("/items")
-    fun addItem(@RequestBody item : Item):Item{
-        return itemService.addItem(item)
-    }
-
-    //Get Item by id
-    @GetMapping("/items/{itemId}")
-    public fun getItem(@PathVariable itemId : Long):Item{
-        return itemService.getItem(itemId)
-    }
-
-    //update Item
-    @PutMapping("/items/{itemId}")
-    fun updateItem(@PathVariable itemId:Long,@RequestBody item: Item):Item{
-        return itemService.updateItem(itemId,item)
-    }
 
 
 

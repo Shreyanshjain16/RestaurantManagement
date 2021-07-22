@@ -9,3 +9,5 @@ interface UserRepository : JpaRepository<User,Long>{
 
 }
 
+
+// Indexing

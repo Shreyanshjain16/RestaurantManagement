@@ -16,6 +16,7 @@ class ItemService (private val itemRepository: ItemRepository){
     }
 
     fun addItem(item: Item) : Item {
+        //validate
         return itemRepository.save(item)
     }
 
