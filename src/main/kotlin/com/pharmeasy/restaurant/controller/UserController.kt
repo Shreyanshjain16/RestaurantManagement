@@ -7,21 +7,23 @@ import com.pharmeasy.restaurant.services.UserService
 import org.springframework.web.bind.annotation.*
 
 @RestController
+
 class UserController(private val userService:UserService) {
 
 
 
-
+//Pgination
     //get the Users
     @GetMapping("/users")
     public fun getUsers() : List<User> {
         return userService.getUsers()
     }
 
-    //add user
+    //add users
+    // Kafka for event production and consumption
     @PostMapping("/users")
-     fun addUser(@RequestBody user: User):User{
-        return userService.addUser(user)
+     fun addUsers(@RequestBody listOfUsers: List<User>):List<User>{
+        return userService.addUsers(listOfUsers)
     }
 
     //Get User by id
@@ -35,7 +37,7 @@ class UserController(private val userService:UserService) {
     fun updateUser(@PathVariable userId:Long,@RequestBody user: User):User{
         return userService.updateUser(userId,user)
     }
-
+//SoftDelete Active/Inactive
 //    @DeleteMapping("users/{userId}")
 //    fun deleteUser(@PathVariable userId: Long){
 //        userService.deleteUser(userId)

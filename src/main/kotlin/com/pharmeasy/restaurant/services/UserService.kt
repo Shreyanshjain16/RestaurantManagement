@@ -5,32 +5,28 @@ import com.pharmeasy.restaurant.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(private val userRepository: UserRepository){
+class UserService(private val userRepository: UserRepository) {
 
-
-
-    fun getUsers() : List<User>{
-     return userRepository.findAll()
+    fun getUsers(): List<User> {
+        return userRepository.findAll()
     }
 
-    fun addUser(user: User) : User{
-        return userRepository.save(user)
+    fun addUsers(listOfUsers: List<User>): List<User> {
+        return userRepository.saveAll(listOfUsers)
     }
 
-    fun getUser(userId :Long ) : User{
-
+    fun getUser(userId: Long): User {
         return userRepository.getById(userId)
     }
 
     fun updateUser(userId: Long, user: User): User {
-        user.userId=userId
+        user.userId = userId
         return userRepository.save(user)
     }
 
-    fun deleteUser(userId:Long){
+    fun deleteUser(userId: Long) {
         return userRepository.deleteById(userId)
     }
-
 
 
 }

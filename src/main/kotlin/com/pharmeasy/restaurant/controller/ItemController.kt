@@ -13,8 +13,8 @@ class ItemController(private val itemService: ItemService) {
     }
 
     @PostMapping("/items")
-    fun addItem(@RequestBody item : Item): Item {
-        return itemService.addItem(item)
+    fun addItems(@RequestBody listOfItems : List<Item>): List<Item> {
+        return itemService.addItems(listOfItems)
     }
 
 
