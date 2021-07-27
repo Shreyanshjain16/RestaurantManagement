@@ -1,49 +1,76 @@
 package com.pharmeasy.restaurant.controller
 
 import com.pharmeasy.restaurant.dto.OrderItemDto
-import com.pharmeasy.restaurant.model.Order
-import com.pharmeasy.restaurant.model.User
+import com.pharmeasy.restaurant.exception.ErrorResponse
 import com.pharmeasy.restaurant.services.OrderService
 import com.pharmeasy.restaurant.services.UserService
 import com.pharmeasy.restaurant.type.OrderStatus
 import com.pharmeasy.restaurant.type.UserType
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.persistence.Id
 
+
+//JUNIT testcase mockito
 //naming the path as per rest standards . Path variable,
 @RestController
-@RequestMapping()
-class OrderController(private val orderService: OrderService,private val userService: UserService) {
-    companion object {private val log = LoggerFactory.getLogger(UserController::class.java)}
+@RequestMapping("/orders")
+class OrderController(private val orderService: OrderService, private val userService: UserService) {
+    companion object {
+        private val log = LoggerFactory.getLogger(UserController::class.java)
+    }
 
-    @GetMapping("/orders")
-    fun getOrders(@RequestParam userId: Long) :List <Order>{
-//        var user:User = userService.getUser(userId)
-//        if(user.userType== UserType.ADMIN)
-        return orderService.getOrders()
+    @GetMapping()
+    fun getOrders(@RequestHeader userId: Long): ResponseEntity<Any> {
+        try {
+            userService.authorize(userId, listOf(UserType.ADMIN))
+            return ResponseEntity(orderService.getOrders(), HttpStatus.OK) //200 //http status codes
+        } catch (e: Exception) {
+            return ResponseEntity(ErrorResponse(e.message!!, "Get Order API failed"), HttpStatus.BAD_REQUEST)
+        }
 
     }
 
-    @GetMapping("/orders/{orderStatus}")
-    fun getOrdersByStatusType(@PathVariable orderStatus: OrderStatus):List <Order>{
-        return orderService.getAllByOrderStatus(orderStatus)
+    @GetMapping("/{orderStatus}")
+    fun getOrdersByStatusType(
+        @PathVariable orderStatus: OrderStatus,
+        @RequestHeader userId: Long
+    ): ResponseEntity<Any> {
+        try {
+            userService.authorize(userId, listOf(UserType.ADMIN))
+            return ResponseEntity(orderService.getAllByOrderStatus(orderStatus), HttpStatus.OK)
+        } catch (e: Exception) {
+            return ResponseEntity(ErrorResponse(e.message!!, "Get Order API failed for getting order list by order status"), HttpStatus.BAD_REQUEST)
+        }
+
     }
 
 
-    @PostMapping("/users/{userId}/orders")
-    fun placeOrder(@RequestBody itemsList: List<OrderItemDto>, @PathVariable userId: Long): String {
-            return orderService.placeOrder(itemsList, userId)
-        }
+    @PostMapping()
+    fun placeOrder(@RequestBody itemsList: List<OrderItemDto>, @RequestHeader userId: Long): String {
+
+        return orderService.placeOrder(itemsList, userId)
+    }
 
 
-//  //PUT orders/orderId
-  @PutMapping("/orders/{orderId}")
-        fun acceptOrder(@PathVariable orderId:Long): String {
-            return orderService.acceptOrder(orderId)
+    //  //PUT orders/orderId
+    @PutMapping("/{orderId}")
+    fun acceptOrder(@PathVariable orderId: Long, @RequestHeader userId: Long): ResponseEntity<Any> {
+        try{
+            userService.authorize(userId, listOf(UserType.ADMIN))
+            return ResponseEntity(orderService.acceptOrder(orderId),HttpStatus.OK)
         }
+        catch (e: Exception) {
+            return ResponseEntity(ErrorResponse(e.message!!, "Put Order API failed used for accepting/rejecting order"), HttpStatus.BAD_REQUEST)
+        }
+    }
+  //Accepting same order again and again
+    // get my order details by orderId , for my order
+
 
 
 //@Autowired
+
 
 }

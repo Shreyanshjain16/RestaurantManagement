@@ -1,8 +1,11 @@
 package com.pharmeasy.restaurant.services
 
 import com.pharmeasy.restaurant.controller.UserController
+import com.pharmeasy.restaurant.exception.RequestException
 import com.pharmeasy.restaurant.model.User
 import com.pharmeasy.restaurant.repository.UserRepository
+import com.pharmeasy.restaurant.type.UserType
+
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -11,6 +14,7 @@ class UserService(private val userRepository: UserRepository) {
     companion object {private val log = LoggerFactory.getLogger(UserController::class.java)}
 
     fun getUsers(): List<User> {
+
         return userRepository.findAll()
     }
 
@@ -29,6 +33,14 @@ class UserService(private val userRepository: UserRepository) {
 
     fun deleteUser(userId: Long) {
         return userRepository.deleteById(userId)
+    }
+
+    fun authorize(userId: Long,rolesRequired : List<UserType>) {
+            var user  = getUser(userId)
+        if(user.userType !in rolesRequired)
+            throw RequestException("The User : $userId Is not authorized to do this task")
+
+
     }
 
 
