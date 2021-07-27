@@ -9,7 +9,7 @@ data class Item(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var itemId: Long?,
-    var itemname: String,
+    var itemName: String,
     var itemquantity:Long
     //validations in controller
     //Exceoptin

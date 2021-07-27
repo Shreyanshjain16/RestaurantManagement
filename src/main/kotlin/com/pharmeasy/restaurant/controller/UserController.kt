@@ -4,18 +4,20 @@ import com.pharmeasy.restaurant.model.Item
 import com.pharmeasy.restaurant.model.User
 import com.pharmeasy.restaurant.services.ItemService
 import com.pharmeasy.restaurant.services.UserService
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 
 @RestController
 
 class UserController(private val userService:UserService) {
 
+companion object {private val log = LoggerFactory.getLogger(UserController::class.java)}
 
-
-//Pgination
+//Pagination
     //get the Users
     @GetMapping("/users")
     public fun getUsers() : List<User> {
+        log.info( "All User details received")
         return userService.getUsers()
     }
 
@@ -29,6 +31,7 @@ class UserController(private val userService:UserService) {
     //Get User by id
     @GetMapping("/users/{userId}")
     public fun getUser(@PathVariable userId : Long):User{
+
         return userService.getUser(userId)
     }
 

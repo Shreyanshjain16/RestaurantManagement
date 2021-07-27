@@ -2,15 +2,18 @@ package com.pharmeasy.restaurant.controller
 
 import com.pharmeasy.restaurant.model.Item
 import com.pharmeasy.restaurant.services.ItemService
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class ItemController(private val itemService: ItemService) {
+    companion object {private val log = LoggerFactory.getLogger(UserController::class.java)}
 
     @GetMapping("/items")
     fun getItems() : List<Item>{
         return itemService.getItems()
     }
+    //@RolesAllowed
 
     @PostMapping("/items")
     fun addItems(@RequestBody listOfItems : List<Item>): List<Item> {

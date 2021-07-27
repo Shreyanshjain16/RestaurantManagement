@@ -1,5 +1,6 @@
 package com.pharmeasy.restaurant.model
 
+import com.pharmeasy.restaurant.type.UserType
 import javax.persistence.*
 
 @Entity
@@ -8,8 +9,11 @@ data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     var userId:Long?,
-    var usertype:Long,
-    var username:String
+    @Enumerated(EnumType.STRING)
+    var userType : UserType,
+    var username:String,
+    //var age:Long
+
     //var age:
     //time created at , uodated at
     //list of custo. within a range // custom query

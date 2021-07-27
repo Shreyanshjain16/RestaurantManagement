@@ -1,11 +1,14 @@
 package com.pharmeasy.restaurant.services
 
+import com.pharmeasy.restaurant.controller.UserController
 import com.pharmeasy.restaurant.model.User
 import com.pharmeasy.restaurant.repository.UserRepository
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class UserService(private val userRepository: UserRepository) {
+    companion object {private val log = LoggerFactory.getLogger(UserController::class.java)}
 
     fun getUsers(): List<User> {
         return userRepository.findAll()
