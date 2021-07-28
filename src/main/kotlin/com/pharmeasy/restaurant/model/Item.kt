@@ -11,6 +11,5 @@ data class Item(
     var itemId: Long?,
     var itemName: String,
     var itemquantity:Long
-    //validations in controller
-    //Exceoptin
+
 )

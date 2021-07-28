@@ -4,6 +4,7 @@ import com.pharmeasy.restaurant.model.User
 import com.pharmeasy.restaurant.services.UserService
 import com.pharmeasy.restaurant.type.UserStatus
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -18,10 +19,12 @@ class UserController(private val userService: UserService) {
     //Pagination
     //get the Users
 
+
+
     @GetMapping("/users")
-    public fun getUsers(): List<User> {
+    public fun getUsers(@RequestParam(defaultValue = "0") page: Int,@RequestParam(defaultValue = "5") size : Int): Page<User> {
         log.info("All User details received")
-        return userService.getUsers()
+        return userService.getUsers(page,size)
     }
 
     //add users
@@ -55,6 +58,11 @@ class UserController(private val userService: UserService) {
     fun updateUserStatus(@PathVariable userId: Long,@RequestParam status : UserStatus){
         userService.updateUserStatus(userId,status)
     }
+
+//    @GetMapping("users/{userId}/orders")
+//    fun getMyOrders(@PathVariable userId: Long){
+//
+//    }
 
 
 }

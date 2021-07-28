@@ -8,6 +8,9 @@ import com.pharmeasy.restaurant.type.UserStatus
 import com.pharmeasy.restaurant.type.UserType
 
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -16,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(private val userRepository: UserRepository) {
     companion object {private val log = LoggerFactory.getLogger(UserController::class.java)}
 
-    fun getUsers(): List<User> {
+    fun getUsers(page: Int = 0, size: Int=5,): Page<User> {
         log.info("UserService.getUsers()")
 
-        return userRepository.findAll()
+        return userRepository.findAll(PageRequest.of(page,size, Sort.by("age")))
     }
 
     fun addUsers(listOfUsers: List<User>): List<User> {
