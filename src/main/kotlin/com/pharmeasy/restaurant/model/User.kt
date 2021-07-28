@@ -1,6 +1,11 @@
 package com.pharmeasy.restaurant.model
 
+import com.pharmeasy.restaurant.type.UserStatus
 import com.pharmeasy.restaurant.type.UserType
+import com.sun.xml.bind.v2.TODO
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
+import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
@@ -12,14 +17,19 @@ data class User(
     @Enumerated(EnumType.STRING)
     var userType : UserType,
     var username:String,
-    //var age:Long
+    var age : Long,
+    @Enumerated(EnumType.STRING)
+    var userStatus: UserStatus = UserStatus.ACTIVE
+//    @CreationTimestamp
+//    var createdAt : Timestamp,
+//    @UpdateTimestamp
+//    var updatedAt : Timestamp,
 
-    //var age:
-    //time created at , uodated at
-    //list of custo. within a range // custom query
-    //time sortation
-    // Admin -1
-    //Customer -2
+
+
+    //Sortation
+
+
 
 
 )

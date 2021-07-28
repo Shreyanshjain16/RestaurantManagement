@@ -1,51 +1,60 @@
 package com.pharmeasy.restaurant.controller
 
-import com.pharmeasy.restaurant.model.Item
 import com.pharmeasy.restaurant.model.User
-import com.pharmeasy.restaurant.services.ItemService
 import com.pharmeasy.restaurant.services.UserService
+import com.pharmeasy.restaurant.type.UserStatus
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 
-class UserController(private val userService:UserService) {
+class UserController(private val userService: UserService) {
 
-companion object {private val log = LoggerFactory.getLogger(UserController::class.java)}
+    companion object {
+        private val log = LoggerFactory.getLogger(UserController::class.java)
+    }
 
-//Pagination
+    //Pagination
     //get the Users
+
     @GetMapping("/users")
-    public fun getUsers() : List<User> {
-        log.info( "All User details received")
+    public fun getUsers(): List<User> {
+        log.info("All User details received")
         return userService.getUsers()
     }
 
     //add users
     // Kafka for event production and consumption
     @PostMapping("/users")
-     fun addUsers(@RequestBody listOfUsers: List<User>):List<User>{
+    fun addUsers(@RequestBody listOfUsers: List<User>): List<User> {
+        log.info("Users Added")
         return userService.addUsers(listOfUsers)
     }
 
     //Get User by id
     @GetMapping("/users/{userId}")
-    public fun getUser(@PathVariable userId : Long):User{
-
-        return userService.getUser(userId)
+    public fun getUser(@PathVariable userId: Long): ResponseEntity<Any> {
+        log.info("details of $userId received")
+        val user = userService.getUser(userId)
+        if(user==null)
+        return ResponseEntity.notFound().build()
+        else
+            return ResponseEntity.ok(user)
     }
 
     //update user
     @PutMapping("/users/{userId}")
-    fun updateUser(@PathVariable userId:Long,@RequestBody user: User):User{
-        return userService.updateUser(userId,user)
+    fun updateUser(@PathVariable userId: Long, @RequestBody user: User): User {
+        log.info("details of $userId updated")
+        return userService.updateUser(userId, user)
     }
-//SoftDelete Active/Inactive
-//    @DeleteMapping("users/{userId}")
-//    fun deleteUser(@PathVariable userId: Long){
-//        userService.deleteUser(userId)
-//    }
 
+// SoftDelete Active/Inactive
+    @PutMapping("users/{userId}/status")
+    fun updateUserStatus(@PathVariable userId: Long,@RequestParam status : UserStatus){
+        userService.updateUserStatus(userId,status)
+    }
 
 
 }

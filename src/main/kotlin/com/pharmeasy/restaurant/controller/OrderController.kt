@@ -59,14 +59,14 @@ class OrderController(private val orderService: OrderService, private val userSe
     fun acceptOrder(@PathVariable orderId: Long, @RequestHeader userId: Long): ResponseEntity<Any> {
         try{
             userService.authorize(userId, listOf(UserType.ADMIN))
+            orderService.orderStatusCheck(orderId,listOf(OrderStatus.ACCEPTED,OrderStatus.FAILED))
             return ResponseEntity(orderService.acceptOrder(orderId),HttpStatus.OK)
         }
         catch (e: Exception) {
             return ResponseEntity(ErrorResponse(e.message!!, "Put Order API failed used for accepting/rejecting order"), HttpStatus.BAD_REQUEST)
         }
     }
-  //Accepting same order again and again
-    // get my order details by orderId , for my order
+
 
 
 
