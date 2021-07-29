@@ -15,6 +15,8 @@ interface UserRepository : JpaRepository<User,Long>{
     fun updateUserStatus(userId : Long, userStatus: UserStatus)
 
 
+
+
     // How to perform custom filtering . eg : getting users within a given age range
 
 
